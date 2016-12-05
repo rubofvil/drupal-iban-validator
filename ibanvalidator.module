@@ -35,8 +35,10 @@ function ibanvalidator_webform_validation_validate($validator_name, $items, $com
         switch ( $validator_name ) {
             case 'validate_iban':
                 foreach( $items as $key => $value){
-                    if( !isValidIban( $value ) ){
-                        $errors[$key] = t( $ibanerror,array( '%item' => $components[$key]["name"] ) );
+                    if(isset($value) && $value != "") {
+                        if( !isValidIban( $value ) ){
+                            $errors[$key] = t( $ibanerror,array( '%item' => $components[$key]["name"] ) );
+                        }
                     }
                 }
                 return $errors;
