@@ -10,15 +10,16 @@
     *   Returns:
     *           TRUE
     */
-    function isValidAccountNumber( $entity, $office, $CD, $account ) {
-        $correctCD = "";
+function isValidAccountNumber( $entity, $office, $CD, $account ) 
+{
+    $correctCD = "";
 
-        if( respectsAccountPattern ( $entity, $office, $account ) ) {
-            $correctCD = getBankAccountCheckDigits( $entity, $office, $account );
-        }
-
-        return ( ( $correctCD == $CD ) && ( $correctCD != "" ) );
+    if(respectsAccountPattern($entity, $office, $account) ) {
+        $correctCD = getBankAccountCheckDigits($entity, $office, $account);
     }
+
+    return ( ( $correctCD == $CD ) && ( $correctCD != "" ) );
+}
 
    /*
     *   This function expects the different parts of an Spanish account as
@@ -31,46 +32,47 @@
     *   Returns:
     *           16
     */
-    function getBankAccountCheckDigits( $entity, $office, $account ) {
-        $entitySum = 0;
-        $officeSum = 0;
-        $accountSum = 0;
+function getBankAccountCheckDigits( $entity, $office, $account ) 
+{
+    $entitySum = 0;
+    $officeSum = 0;
+    $accountSum = 0;
 
-        $CD1 = "";
-        $CD2 = "";
+    $CD1 = "";
+    $CD2 = "";
 
-        if( respectsAccountPattern ( $entity, $office, $account ) ) {
-            $entitySum =
-                substr( $entity, 0, 1 ) * 4 +
-                substr( $entity, 1, 1 ) * 8 +
-                substr( $entity, 2, 1 ) * 5 +
-                substr( $entity, 3, 1 ) * 10;
+    if(respectsAccountPattern($entity, $office, $account) ) {
+        $entitySum =
+            substr($entity, 0, 1) * 4 +
+            substr($entity, 1, 1) * 8 +
+            substr($entity, 2, 1) * 5 +
+            substr($entity, 3, 1) * 10;
 
-            $officeSum =
-                substr( $office, 0, 1 ) * 9 +
-                substr( $office, 1, 1 ) * 7 +
-                substr( $office, 2, 1 ) * 3 +
-                substr( $office, 3, 1 ) * 6;
+        $officeSum =
+            substr($office, 0, 1) * 9 +
+            substr($office, 1, 1) * 7 +
+            substr($office, 2, 1) * 3 +
+            substr($office, 3, 1) * 6;
 
-            $CD1 = 11 - ( ( $entitySum + $officeSum ) % 11 );
+        $CD1 = 11 - ( ( $entitySum + $officeSum ) % 11 );
 
-            $accountSum =
-                substr( $account, 0, 1 ) * 1 +
-                substr( $account, 1, 1 ) * 2 +
-                substr( $account, 2, 1 ) * 4 +
-                substr( $account, 3, 1 ) * 8 +
-                substr( $account, 4, 1 ) * 5 +
-                substr( $account, 5, 1 ) * 10 +
-                substr( $account, 6, 1 ) * 9 +
-                substr( $account, 7, 1 ) * 7 +
-                substr( $account, 8, 1 ) * 3 +
-                substr( $account, 9, 1 ) * 6;
+        $accountSum =
+            substr($account, 0, 1) * 1 +
+            substr($account, 1, 1) * 2 +
+            substr($account, 2, 1) * 4 +
+            substr($account, 3, 1) * 8 +
+            substr($account, 4, 1) * 5 +
+            substr($account, 5, 1) * 10 +
+            substr($account, 6, 1) * 9 +
+            substr($account, 7, 1) * 7 +
+            substr($account, 8, 1) * 3 +
+            substr($account, 9, 1) * 6;
 
-            $CD2 = 11 - ( $accountSum % 11 );
+        $CD2 = 11 - ( $accountSum % 11 );
             
-        }
-        return substr($CD1 . $CD2, 0, 2);
     }
+    return substr($CD1 . $CD2, 0, 2);
+}
 
    /*
     *   This function validates the format of a Spanish account number.
@@ -91,19 +93,20 @@
     *   Returns:
     *       FALSE
     */
-    function respectsAccountPattern( $entity, $office, $account ) {
-        $isValid = TRUE;
+function respectsAccountPattern( $entity, $office, $account ) 
+{
+    $isValid = true;
 
-        if( !preg_match( "/^[0-9][0-9][0-9][0-9]/", $entity ) ) {
-            $isValid = FALSE;
-        }
-        if( !preg_match( "/^[0-9][0-9][0-9][0-9]/", $office ) ) {
-            $isValid = FALSE;
-        }
-        if( !preg_match( "/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/", $account ) ) {
-            $isValid = FALSE;
-        }
-        return $isValid;
+    if(!preg_match("/^[0-9][0-9][0-9][0-9]/", $entity) ) {
+        $isValid = false;
     }
+    if(!preg_match("/^[0-9][0-9][0-9][0-9]/", $office) ) {
+        $isValid = false;
+    }
+    if(!preg_match("/^[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]/", $account) ) {
+        $isValid = false;
+    }
+    return $isValid;
+}
 ?>
 
